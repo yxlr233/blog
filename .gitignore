@@ -1,0 +1,12 @@
+.next
+out
+node_modules
+.env*.local
+*.tsbuildinfo
+*.log
+.DS_Store
+.vercel
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

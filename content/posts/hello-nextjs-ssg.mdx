@@ -1,0 +1,32 @@
+---
+title: "Hello Next.js SSG"
+description: "A first MDX post rendered into a static blog page."
+date: "2026-07-22"
+category: "Engineering"
+tags: ["Next.js", "MDX", "SSG"]
+---
+
+This post lives in `content/posts/hello-nextjs-ssg.mdx`. The file name becomes the URL:
+
+```txt
+/blog/hello-nextjs-ssg/
+```
+
+<Callout title="MDX is enabled" type="success">
+You can mix Markdown with React components that are exposed by the site.
+</Callout>
+
+## Writing posts
+
+Add a new `.mdx` file under `content/posts` and include the required frontmatter:
+
+```mdx title="content/posts/my-first-post.mdx" {2-4} showLineNumbers
+---
+title: "Post title"
+description: "Short summary for lists and metadata"
+date: "2026-07-22"
+tags: ["Notes"]
+---
+```
+
+The build reads every post, sorts by date, and creates static routes for each slug.

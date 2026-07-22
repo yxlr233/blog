@@ -1,0 +1,19 @@
+---
+title: "Designing a Quiet Blog"
+description: "A compact layout for reading, scanning, and publishing without extra surface area."
+date: "2026-07-21"
+category: "Design"
+tags: ["Design", "Writing"]
+---
+
+A small blog works best when the structure stays predictable. This starter keeps the first screen focused on recent writing, then uses a plain archive page for everything else.
+
+## Design choices
+
+- A narrow reading measure keeps long posts comfortable.
+- Borders and spacing do the organizational work.
+- Tags remain useful without turning into visual clutter.
+
+## Static by default
+
+`generateStaticParams` returns every post slug at build time, and `output: "export"` writes static assets to `out/`.

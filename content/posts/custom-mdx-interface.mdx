@@ -1,0 +1,78 @@
+---
+title: "用 MDX 组合自定义界面"
+description: "通过可复用组件把文章写成更接近文档系统的阅读体验。"
+date: "2026-07-20"
+category: "Writing"
+tags: ["MDX", "Components", "Interface"]
+---
+
+MDX 的价值不只是把 Markdown 渲染成 HTML。它还允许文章直接使用站点暴露的组件，让教程、说明、笔记和项目记录拥有一致的界面语言。
+
+<Callout title="按内容选择组件" type="tip">
+优先使用普通 Markdown。只有当内容确实需要提示、对比、分步或折叠时，再使用 MDX 组件强化结构。
+</Callout>
+
+## 内容概览
+
+<CardGrid columns={3}>
+  <Card eyebrow="Emphasis" title="Callout" href="#提示块">
+    用于提示、风险、结论和上下文补充。
+  </Card>
+  <Card eyebrow="Process" title="Steps" href="#步骤">
+    用于安装、迁移、排障等有顺序的流程。
+  </Card>
+  <Card eyebrow="Reference" title="Tabs" href="#选项卡">
+    把同一主题的不同平台或语言示例放在一起。
+  </Card>
+</CardGrid>
+
+## 提示块
+
+`Callout` 支持五种语义类型：<Badge>info</Badge> <Badge tone="accent">tip</Badge> <Badge tone="success">success</Badge> <Badge tone="warning">warning</Badge> <Badge tone="danger">danger</Badge>
+
+<Callout title="构建成功" type="success">
+生产构建已经生成静态文件，可以部署 `out/` 目录。
+</Callout>
+
+<Callout title="修改前先备份" type="warning">
+迁移内容结构前，先确认文章 slug 和现有外链不会失效。
+</Callout>
+
+## 步骤
+
+<Steps>
+  <Step title="写 frontmatter">定义标题、摘要、日期、分类和标签。</Step>
+  <Step title="组织正文">用 Markdown 写主体，用 MDX 组件补充结构。</Step>
+  <Step title="构建导出">运行 `npm run build` 生成静态文件。</Step>
+</Steps>
+
+## 选项卡
+
+<Tabs>
+  <Tab label="npm">
+    ```sh
+    npm run dev
+    ```
+  </Tab>
+  <Tab label="pnpm">
+    ```sh
+    pnpm dev
+    ```
+  </Tab>
+</Tabs>
+
+## 检查清单
+
+<Checklist>
+  <CheckItem done>标题与摘要已经填写</CheckItem>
+  <CheckItem done>目录锚点可以正常定位</CheckItem>
+  <CheckItem>发布前检查站内链接</CheckItem>
+</Checklist>
+
+<Details summary="查看建议的文章目录结构">
+  <FileTree title="content/posts">
+    {`content/posts/\n├── first-post.mdx\n├── second-post.mdx\n└── custom-mdx-interface.mdx`}
+  </FileTree>
+</Details>
+
+更完整的组件属性和写法见仓库中的 `docs/MDX_COMPONENTS.md`。
