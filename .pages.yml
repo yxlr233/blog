@@ -1,0 +1,121 @@
+media:
+  input: public/images
+  output: /blog/images
+  label: 图片
+  categories: [image]
+  rename: safe
+
+settings:
+  content:
+    merge: true
+  commit:
+    identity: user
+    templates:
+      create: "创建 {path}（通过 Pages CMS）"
+      update: "更新 {path}（通过 Pages CMS）"
+      delete: "删除 {path}（通过 Pages CMS）"
+      rename: "重命名 {oldPath} 为 {newPath}（通过 Pages CMS）"
+
+content:
+  - name: posts
+    label: 文章
+    type: collection
+    path: content/posts
+    filename:
+      template: "{primary}.mdx"
+      field: create
+    operations:
+      rename: false
+    view:
+      fields: [title, date, category, draft]
+      primary: title
+      sort: [date, title, category]
+      search: [title, description, category, tags]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+        options:
+          maxlength: 120
+      - name: description
+        label: 摘要
+        type: text
+        required: true
+        description: 用于文章列表和搜索引擎描述。
+        options:
+          maxlength: 200
+      - name: date
+        label: 发布日期
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: category
+        label: 分类
+        type: string
+        required: true
+        default: Notes
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+      - name: draft
+        label: 草稿
+        type: boolean
+        default: false
+        description: 开启后文章不会出现在公开站点中。
+      - name: body
+        label: 正文
+        type: code
+        required: true
+        description: 支持 Markdown、代码块和站点内置 MDX 组件。
+        options:
+          format: mdx
+
+  - name: pages
+    label: 独立页面
+    type: collection
+    path: content/pages
+    filename:
+      template: "{primary}.mdx"
+      field: create
+    operations:
+      rename: false
+    view:
+      fields: [title, order]
+      primary: title
+      sort: [order, title]
+      search: [title, description]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+        options:
+          maxlength: 120
+      - name: description
+        label: 摘要
+        type: text
+        required: true
+        options:
+          maxlength: 200
+      - name: order
+        label: 排序
+        type: number
+        required: true
+        default: 99
+        description: 数字越小，页面越靠前。
+      - name: body
+        label: 正文
+        type: code
+        required: true
+        description: 支持 Markdown、代码块和站点内置 MDX 组件。
+        options:
+          format: mdx
