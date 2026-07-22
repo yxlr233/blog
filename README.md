@@ -13,6 +13,12 @@ npm run preview
 
 生产构建会将静态文件导出到 `out/`。
 
+## 自动部署
+
+推送到 `main` 分支后，GitHub Actions 会自动构建并部署到 GitHub Pages。也可以在仓库的 Actions 页面手动运行 `Deploy to GitHub Pages` 工作流。
+
+首次部署前，需要在仓库的 `Settings > Pages > Build and deployment` 中将 `Source` 设置为 `GitHub Actions`。
+
 ## 写文章
 
 文章位于 `content/posts/*.mdx`，每篇文章需要以下 frontmatter：

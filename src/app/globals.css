@@ -8,7 +8,9 @@
   --muted-strong: #46514e;
   --border: #dbe1dd;
   --border-strong: #c5cec8;
-  --accent: #0f766e;
+  --accent-light: #0f766e;
+  --accent-dark: #5eead4;
+  --accent: var(--accent-light);
   --accent-weak: color-mix(in srgb, var(--accent) 11%, #ffffff);
   --accent-fg: #ffffff;
   --success: #137a52;
@@ -42,7 +44,9 @@
   --muted-strong: #c1cac6;
   --border: #303936;
   --border-strong: #46514d;
+  --accent: var(--accent-dark);
   --accent-weak: color-mix(in srgb, var(--accent) 20%, #101312);
+  --accent-fg: #101312;
   --success: #64c69a;
   --success-weak: #123126;
   --warning: #e8ae57;
@@ -1858,9 +1862,14 @@ svg {
   padding: 0;
   border: 2px solid transparent;
   border-radius: 50%;
+  background: var(--swatch-light);
   cursor: pointer;
   outline-offset: 2px;
   transition: transform 0.12s ease;
+}
+
+[data-theme="dark"] .color-swatch {
+  background: var(--swatch-dark);
 }
 
 .color-swatch:hover {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Monitor, Moon, Palette, Sun } from "lucide-react";
 import { site } from "@/lib/site";
 
@@ -47,7 +47,8 @@ export function ThemeControls({ open, onOpenChange }: ThemeControlsProps) {
     function apply() {
       const resolvedMode = mode === "system" ? (media.matches ? "dark" : "light") : mode;
       document.documentElement.dataset.theme = resolvedMode;
-      document.documentElement.style.setProperty("--accent", selectedAccent.value);
+      document.documentElement.style.setProperty("--accent-light", selectedAccent.value);
+      document.documentElement.style.setProperty("--accent-dark", selectedAccent.darkValue);
       window.localStorage.setItem(themeStorageKey, mode);
       window.localStorage.setItem(accentStorageKey, selectedAccent.value);
     }
@@ -104,7 +105,10 @@ export function ThemeControls({ open, onOpenChange }: ThemeControlsProps) {
                   className="color-swatch"
                   key={item.value}
                   onClick={() => setAccent(item.value)}
-                  style={{ backgroundColor: item.value }}
+                  style={{
+                    "--swatch-light": item.value,
+                    "--swatch-dark": item.darkValue
+                  } as CSSProperties}
                   title={item.name}
                   type="button"
                 />
