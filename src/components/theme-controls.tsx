@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { Monitor, Moon, Sun, SunMoon } from "lucide-react";
 
 type ThemeMode = "system" | "light" | "dark";
 
 const themeStorageKey = "quiet-notes-theme";
+const themeChangeEvent = "quiet-notes-theme-change";
 const modes: Array<{ value: ThemeMode; label: string; icon: typeof Monitor }> = [
   { value: "system", label: "跟随系统", icon: Monitor },
   { value: "light", label: "浅色", icon: Sun },
@@ -18,16 +19,7 @@ type ThemeControlsProps = {
 };
 
 export function ThemeControls({ open, onOpenChange }: ThemeControlsProps) {
-  const [mode, setMode] = useState<ThemeMode>("system");
-
-  useEffect(() => {
-    const savedMode = window.localStorage.getItem(themeStorageKey) as ThemeMode | null;
-    window.localStorage.removeItem("quiet-notes-accent");
-
-    if (savedMode === "system" || savedMode === "light" || savedMode === "dark") {
-      setMode(savedMode);
-    }
-  }, []);
+  const mode = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, () => "system");
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -35,7 +27,6 @@ export function ThemeControls({ open, onOpenChange }: ThemeControlsProps) {
     function apply() {
       const resolvedMode = mode === "system" ? (media.matches ? "dark" : "light") : mode;
       document.documentElement.dataset.theme = resolvedMode;
-      window.localStorage.setItem(themeStorageKey, mode);
     }
 
     apply();
@@ -70,7 +61,7 @@ export function ThemeControls({ open, onOpenChange }: ThemeControlsProps) {
                   <button
                     aria-pressed={mode === item.value}
                     key={item.value}
-                    onClick={() => setMode(item.value)}
+                    onClick={() => setTheme(item.value)}
                     title={item.label}
                     type="button"
                   >
@@ -84,4 +75,24 @@ export function ThemeControls({ open, onOpenChange }: ThemeControlsProps) {
       ) : null}
     </div>
   );
+}
+
+function getThemeSnapshot(): ThemeMode {
+  const savedMode = window.localStorage.getItem(themeStorageKey);
+  return savedMode === "light" || savedMode === "dark" ? savedMode : "system";
+}
+
+function subscribeToTheme(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  window.addEventListener(themeChangeEvent, onChange);
+
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(themeChangeEvent, onChange);
+  };
+}
+
+function setTheme(mode: ThemeMode) {
+  window.localStorage.setItem(themeStorageKey, mode);
+  window.dispatchEvent(new Event(themeChangeEvent));
 }

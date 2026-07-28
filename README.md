@@ -7,11 +7,14 @@
 ```sh
 npm install
 npm run dev
+npm run check
 npm run build
 npm run preview
 ```
 
 生产构建会将静态文件导出到 `out/`。
+
+`npm run check` 会依次执行 ESLint 和 TypeScript 检查。Next.js 16 不再在 `next build` 中自动运行 ESLint，因此 CI 会在构建前单独执行该命令。
 
 ### Termux
 

@@ -3,13 +3,11 @@ import path from "node:path";
 import { parseFrontmatter, type FrontmatterValue } from "@/lib/frontmatter";
 import { createSlugger, slugify } from "@/lib/slug";
 
-export { slugify } from "@/lib/slug";
-
 const postsDirectory = path.join(process.cwd(), "content", "posts");
 const postCache = new Map<string, Promise<Post | null>>();
 let allPostsCache: Promise<Post[]> | null = null;
 
-export type Heading = {
+type Heading = {
   depth: 2 | 3;
   id: string;
   text: string;
@@ -34,7 +32,7 @@ export type PostMeta = {
   headings: Heading[];
 };
 
-export type Post = PostMeta & {
+type Post = PostMeta & {
   content: string;
   excerpt: string;
 };
@@ -160,7 +158,7 @@ export function createSearchIndex(posts: Post[]): SearchPost[] {
   });
 }
 
-export function normalizeSearchText(value: string) {
+function normalizeSearchText(value: string) {
   return value.toLowerCase().replace(/\s+/g, " ").trim();
 }
 

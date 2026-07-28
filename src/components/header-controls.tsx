@@ -9,11 +9,12 @@ type OpenPanel = "navigation" | "theme" | null;
 
 export function HeaderControls({ links }: { links: NavItem[] }) {
   const pathname = usePathname();
-  const [openPanel, setOpenPanel] = useState<OpenPanel>(null);
 
-  useEffect(() => {
-    setOpenPanel(null);
-  }, [pathname]);
+  return <PathControls key={pathname} links={links} pathname={pathname} />;
+}
+
+function PathControls({ links, pathname }: { links: NavItem[]; pathname: string }) {
+  const [openPanel, setOpenPanel] = useState<OpenPanel>(null);
 
   useEffect(() => {
     if (!openPanel) return;

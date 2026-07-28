@@ -9,13 +9,16 @@
     "setup:termux": "npm install --omit=optional",
     "dev": "next dev",
     "dev:termux": "node scripts/run-next.mjs dev --js-toolchain",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck",
     "build": "next build",
     "build:termux": "node scripts/run-next.mjs build --js-toolchain",
     "start": "node scripts/serve-static.mjs out",
     "preview": "node scripts/serve-static.mjs out"
   },
   "dependencies": {
-    "@mdx-js/react": "^3.1.0",
     "lucide-react": "^1.25.0",
     "next": "^16.2.12",
     "next-mdx-remote": "^6.0.0",
@@ -31,6 +34,8 @@
     "@types/node": "^22.10.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.2.12",
     "typescript": "^5.7.0"
   }
 }

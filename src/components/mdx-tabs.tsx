@@ -6,7 +6,7 @@ import {
   type ReactNode
 } from "react";
 
-export type TabProps = {
+type TabProps = {
   children: ReactNode;
   label: string;
 };

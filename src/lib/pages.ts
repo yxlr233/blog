@@ -6,14 +6,14 @@ const pagesDirectory = path.join(process.cwd(), "content", "pages");
 const pageCache = new Map<string, Promise<CustomPage | null>>();
 let allPagesCache: Promise<CustomPage[]> | null = null;
 
-export type PageMeta = {
+type PageMeta = {
   slug: string;
   title: string;
   description: string;
   order: number;
 };
 
-export type CustomPage = PageMeta & {
+type CustomPage = PageMeta & {
   content: string;
 };
 

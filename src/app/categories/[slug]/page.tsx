@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BackLink } from "@/components/back-link";
-import { getAllPosts, getCategories, getPostsByCategory } from "@/lib/posts";
+import { getCategories, getPostsByCategory } from "@/lib/posts";
 import { PostList } from "@/components/post-list";
 
 type PageProps = { params: Promise<{ slug: string }> };

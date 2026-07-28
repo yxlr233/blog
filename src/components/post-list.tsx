@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight, CalendarDays, Clock3, Folder, Tag } from "lucide-react";
 import { formatDate } from "@/lib/date";
-import { slugify, type PostMeta } from "@/lib/posts";
+import type { PostMeta } from "@/lib/posts";
+import { slugify } from "@/lib/slug";
 
 type PostListProps = {
   posts: PostMeta[];
@@ -43,7 +44,7 @@ export function PostList({ posts, emptyMessage = "暂无文章。" }: PostListPr
   );
 }
 
-export function PostMetaLine({ post }: { post: Pick<PostMeta, "date" | "readingTime"> }) {
+function PostMetaLine({ post }: { post: Pick<PostMeta, "date" | "readingTime"> }) {
   return (
     <div className="post-card-meta">
       <span>

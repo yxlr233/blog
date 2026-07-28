@@ -6,8 +6,9 @@ import { Folder, Tag } from "lucide-react";
 import { BackLink } from "@/components/back-link";
 import { createMdxComponents } from "@/components/mdx-components";
 import { formatDate } from "@/lib/date";
-import { getAllPosts, getPostBySlug, slugify } from "@/lib/posts";
+import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { site } from "@/lib/site";
+import { slugify } from "@/lib/slug";
 import { ReadingProgress } from "@/components/reading-progress";
 import { mdxOptions } from "@/lib/mdx-options";
 
