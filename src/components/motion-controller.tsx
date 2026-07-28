@@ -59,9 +59,8 @@ export function MotionController() {
     const progress = document.querySelector<HTMLElement>(".reading-progress > span");
     const headings = Array.from(document.querySelectorAll<HTMLElement>(".prose h2[id], .prose h3[id]"));
     const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(".toc-list a[href^='#']"));
-    const hasTabInteractions = Boolean(document.querySelector("[data-tabs], [data-copy-code]"));
     const needsMeasure = Boolean(article || headings.length || tocLinks.length);
-    const copyTimers = new Set<number>();
+    const copyTimers = new Map<HTMLButtonElement, number>();
     let articleTop = 0;
     let articleDistance = 1;
     let headingOffsets: number[] = [];
@@ -168,6 +167,9 @@ export function MotionController() {
 
       try {
         await copyText(code);
+        const previousTimer = copyTimers.get(target);
+        if (previousTimer) window.clearTimeout(previousTimer);
+
         target.dataset.copied = "true";
         target.setAttribute("aria-label", "代码已复制");
         target.title = "已复制";
@@ -175,9 +177,9 @@ export function MotionController() {
           target.removeAttribute("data-copied");
           target.setAttribute("aria-label", "复制代码");
           target.title = "复制代码";
-          copyTimers.delete(timer);
-        }, 1800);
-        copyTimers.add(timer);
+          copyTimers.delete(target);
+        }, 2000);
+        copyTimers.set(target, timer);
       } catch {
         target.removeAttribute("data-copied");
       }
@@ -217,10 +219,8 @@ export function MotionController() {
       window.addEventListener("resize", requestMeasure);
       window.addEventListener("load", requestMeasure, { once: true });
     }
-    if (hasTabInteractions) {
-      document.addEventListener("click", handleClick);
-      document.addEventListener("keydown", handleKeyDown);
-    }
+    document.addEventListener("click", handleClick);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       resizeObserver?.disconnect();
@@ -229,10 +229,8 @@ export function MotionController() {
         window.removeEventListener("resize", requestMeasure);
         window.removeEventListener("load", requestMeasure);
       }
-      if (hasTabInteractions) {
-        document.removeEventListener("click", handleClick);
-        document.removeEventListener("keydown", handleKeyDown);
-      }
+      document.removeEventListener("click", handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
       copyTimers.forEach((timer) => window.clearTimeout(timer));
       if (updateFrame) window.cancelAnimationFrame(updateFrame);
       if (measureFrame) window.cancelAnimationFrame(measureFrame);
@@ -244,8 +242,12 @@ export function MotionController() {
 
 async function copyText(value: string) {
   if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(value);
-    return;
+    try {
+      await navigator.clipboard.writeText(value);
+      return;
+    } catch {
+      // Fall through to the legacy path when clipboard permission is denied.
+    }
   }
 
   const textarea = document.createElement("textarea");
@@ -254,6 +256,8 @@ async function copyText(value: string) {
   textarea.style.opacity = "0";
   document.body.appendChild(textarea);
   textarea.select();
-  document.execCommand("copy");
+  const copied = document.execCommand("copy");
   textarea.remove();
+
+  if (!copied) throw new Error("Unable to copy code");
 }

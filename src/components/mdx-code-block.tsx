@@ -38,7 +38,7 @@ export function CodeBlock({ children, ...props }: ComponentPropsWithoutRef<"pre"
           <Copy className="copy-icon" size={14} aria-hidden="true" />
           <Check className="copied-icon" size={14} aria-hidden="true" />
           <span className="copy-label">复制</span>
-          <span className="copied-label">已复制</span>
+          <span aria-live="polite" className="copied-label" role="status">已复制</span>
         </button>
       </div>
       <pre {...props}>{children}</pre>
