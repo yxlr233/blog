@@ -1,6 +1,6 @@
 media:
   input: public/images
-  output: /blog/images
+  output: /images
   label: 图片
   categories: [image]
   rename: safe

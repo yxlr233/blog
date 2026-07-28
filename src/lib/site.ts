@@ -1,7 +1,7 @@
 export const site = {
   name: "YuuYuki Notes",
   description: "安静、克制、面向长期写作的个人知识库。",
-  url: "https://yxlr233.github.io/blog",
+  url: "https://yxlr233.github.io",
   nav: [
     { href: "/blog/", label: "文章" },
     { href: "/categories/", label: "分类" },
