@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ArrowUpRight, CalendarDays, Clock3, Folder, Tag } from "lucide-react";
 import { formatDate } from "@/lib/date";
+import { RouteLink } from "@/components/route-link";
 import type { PostMeta } from "@/lib/posts";
 import { slugify } from "@/lib/slug";
 
@@ -21,21 +21,21 @@ export function PostList({ posts, emptyMessage = "暂无文章。" }: PostListPr
           <PostMetaLine post={post} />
           <div className="post-card-heading">
             <h2>
-              <Link href={`/blog/${post.slug}/`}>{post.title}</Link>
+              <RouteLink href={`/blog/${post.slug}/`}>{post.title}</RouteLink>
             </h2>
             <ArrowUpRight size={19} aria-hidden="true" />
           </div>
           <p>{post.description}</p>
           <div className="post-taxonomy">
-            <Link href={`/categories/${post.categorySlug}/`} className="taxonomy-link">
+            <RouteLink href={`/categories/${post.categorySlug}/`} className="taxonomy-link">
               <Folder size={14} aria-hidden="true" />
               {post.category}
-            </Link>
+            </RouteLink>
             {post.tags.map((tag) => (
-              <Link href={`/tags/${slugify(tag)}/`} className="taxonomy-link" key={tag}>
+              <RouteLink href={`/tags/${slugify(tag)}/`} className="taxonomy-link" key={tag}>
                 <Tag size={14} aria-hidden="true" />
                 {tag}
-              </Link>
+              </RouteLink>
             ))}
           </div>
         </article>

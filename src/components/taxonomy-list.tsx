@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Folder, Hash } from "lucide-react";
+import { RouteLink } from "@/components/route-link";
 import type { TaxonomyItem } from "@/lib/posts";
 
 type TaxonomyListProps = {
@@ -18,7 +18,7 @@ export function TaxonomyList({ items, type }: TaxonomyListProps) {
   return (
     <div className="taxonomy-grid">
       {items.map((item) => (
-        <Link href={`${basePath}/${item.slug}/`} className="taxonomy-card" key={item.slug}>
+        <RouteLink href={`${basePath}/${item.slug}/`} className="taxonomy-card" key={item.slug}>
           <span className="taxonomy-card-icon">
             <Icon size={18} aria-hidden="true" />
           </span>
@@ -26,7 +26,7 @@ export function TaxonomyList({ items, type }: TaxonomyListProps) {
             <strong>{item.name}</strong>
             <small>{item.count} 篇文章</small>
           </span>
-        </Link>
+        </RouteLink>
       ))}
     </div>
   );

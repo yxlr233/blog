@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Folder, Tag } from "lucide-react";
@@ -10,6 +9,8 @@ import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { site } from "@/lib/site";
 import { slugify } from "@/lib/slug";
 import { ReadingProgress } from "@/components/reading-progress";
+import { RouteLink } from "@/components/route-link";
+import { TableOfContents } from "@/components/table-of-contents";
 import { mdxOptions } from "@/lib/mdx-options";
 
 type PageProps = {
@@ -60,30 +61,21 @@ export default async function BlogPostPage({ params }: PageProps) {
             <h1>{post.title}</h1>
             <p>{post.description}</p>
             <div className="post-taxonomy">
-              <Link href={`/categories/${post.categorySlug}/`} className="taxonomy-link">
+              <RouteLink href={`/categories/${post.categorySlug}/`} className="taxonomy-link">
                 <Folder size={14} aria-hidden="true" />
                 {post.category}
-              </Link>
+              </RouteLink>
               {post.tags.map((tag) => (
-                <Link href={`/tags/${slugify(tag)}/`} className="taxonomy-link" key={tag}>
+                <RouteLink href={`/tags/${slugify(tag)}/`} className="taxonomy-link" key={tag}>
                   <Tag size={14} aria-hidden="true" />
                   {tag}
-                </Link>
+                </RouteLink>
               ))}
             </div>
           </header>
 
           {post.headings.length > 1 && (
-            <aside className="toc" aria-label="文章目录">
-              <p className="toc-title">本页目录</p>
-              <ul className="toc-list">
-                {post.headings.map((h) => (
-                  <li key={h.id} className={`depth-${h.depth}`}>
-                    <a href={`#${h.id}`}>{h.text}</a>
-                  </li>
-                ))}
-              </ul>
-            </aside>
+            <TableOfContents headings={post.headings} />
           )}
 
           <div className="prose">

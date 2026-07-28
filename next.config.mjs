@@ -2,6 +2,7 @@
 const useWasmCompiler = process.env.NEXT_USE_WASM_COMPILER === "1";
 
 const nextConfig = {
+  allowedDevOrigins: ["192.168.10.5"],
   basePath: process.env.BASE_PATH ?? "",
   output: "export",
   trailingSlash: true,

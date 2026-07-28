@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { RouteLink } from "@/components/route-link";
 
 export type NavItem = { href: string; label: string };
 
@@ -30,7 +30,7 @@ export function NavLinks({ links, open, onOpenChange, pathname }: NavLinksProps)
         {links.map((link) => {
           const active = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
           return (
-            <Link
+            <RouteLink
               key={link.href}
               href={link.href}
               className={`nav-link${active ? " active" : ""}`}
@@ -38,7 +38,7 @@ export function NavLinks({ links, open, onOpenChange, pathname }: NavLinksProps)
               role="listitem"
             >
               {link.label}
-            </Link>
+            </RouteLink>
           );
         })}
       </div>

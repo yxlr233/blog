@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getAllPosts, getCategories } from "@/lib/posts";
 import { PostList } from "@/components/post-list";
+import { RouteLink } from "@/components/route-link";
 import { TaxonomyList } from "@/components/taxonomy-list";
 import { site } from "@/lib/site";
 
@@ -17,13 +17,13 @@ export default async function HomePage() {
           <h1>{site.name}</h1>
           <p className="lede">{site.description}</p>
           <div className="intro-actions">
-            <Link href="/blog/" className="button-link">
+            <RouteLink href="/blog/" className="button-link">
               浏览所有文章
               <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-            <Link href="/about/" className="button-link secondary">
+            </RouteLink>
+            <RouteLink href="/about/" className="button-link secondary">
               关于我
-            </Link>
+            </RouteLink>
           </div>
         </div>
         <div className="intro-index" aria-label="博客概览">
@@ -39,9 +39,9 @@ export default async function HomePage() {
             <p className="eyebrow">Latest</p>
             <h2 id="latest-heading">最新文章</h2>
           </div>
-          <Link href="/blog/" className="text-link">
+          <RouteLink href="/blog/" className="text-link">
             查看全部 <ArrowRight size={15} aria-hidden="true" />
-          </Link>
+          </RouteLink>
         </div>
         <PostList posts={latestPosts} />
       </section>
@@ -53,9 +53,9 @@ export default async function HomePage() {
               <p className="eyebrow">Browse</p>
               <h2 id="categories-heading">文章分类</h2>
             </div>
-            <Link href="/categories/" className="text-link">
+            <RouteLink href="/categories/" className="text-link">
               查看全部 <ArrowRight size={15} aria-hidden="true" />
-            </Link>
+            </RouteLink>
           </div>
           <TaxonomyList items={categories.slice(0, 6)} type="category" />
         </section>

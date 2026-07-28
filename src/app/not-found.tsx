@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { RouteLink } from "@/components/route-link";
 
 export default function NotFound() {
   return (
@@ -7,9 +7,9 @@ export default function NotFound() {
         <p className="eyebrow">404</p>
         <h1>Page not found</h1>
         <p>The page you requested does not exist.</p>
-        <Link href="/" className="button-link">
+        <RouteLink href="/" className="button-link">
           Go home
-        </Link>
+        </RouteLink>
       </section>
     </main>
   );

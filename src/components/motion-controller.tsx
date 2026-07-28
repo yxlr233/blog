@@ -31,105 +31,60 @@ export function MotionController() {
     const targets = Array.from(document.querySelectorAll<HTMLElement>(revealSelector));
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    targets.forEach((target) => target.classList.add("reveal-item"));
-
-    if (reduceMotion || !("IntersectionObserver" in window)) {
-      targets.forEach((target) => target.classList.add("is-visible"));
+    if (reduceMotion || !("IntersectionObserver" in window) || !("animate" in Element.prototype)) {
       return;
     }
+
+    const rootStyles = window.getComputedStyle(document.documentElement);
+    const duration = Number.parseFloat(rootStyles.getPropertyValue("--motion-slow")) || 480;
+    const easing = rootStyles.getPropertyValue("--ease-out").trim();
+    const animations: Animation[] = [];
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
+
+          const target = entry.target as HTMLElement;
+          const parent = target.parentElement;
+          const staggered = parent?.matches(".post-list, .taxonomy-grid") ?? false;
+          const siblingIndex = parent ? Array.from(parent.children).indexOf(target) : 0;
+          const delay = staggered ? Math.min(Math.max(siblingIndex, 0) * 30, 60) : 0;
+
+          animations.push(target.animate(
+            [
+              { opacity: 0, translate: "0 10px" },
+              { opacity: 1, translate: "0 0" }
+            ],
+            { duration, delay, easing, fill: "backwards" }
+          ));
+          observer.unobserve(target);
         });
       },
       { rootMargin: "0px 0px -7% 0px", threshold: 0.06 }
     );
 
     targets.forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
+
+    return () => {
+      observer.disconnect();
+      animations.forEach((animation) => animation.cancel());
+    };
   }, [pathname]);
 
   useEffect(() => {
     const header = document.querySelector<HTMLElement>(".site-header");
-    const article = document.querySelector<HTMLElement>(".prose");
-    const progress = document.querySelector<HTMLElement>(".reading-progress > span");
-    const headings = Array.from(document.querySelectorAll<HTMLElement>(".prose h2[id], .prose h3[id]"));
-    const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(".toc-list a[href^='#']"));
-    const needsMeasure = Boolean(article || headings.length || tocLinks.length);
     const copyTimers = new Map<HTMLButtonElement, number>();
-    let articleTop = 0;
-    let articleDistance = 1;
-    let headingOffsets: number[] = [];
-    let activeId = "";
     let updateFrame = 0;
-    let measureFrame = 0;
-
-    const updateActiveHeading = (scrollPosition: number) => {
-      if (!headings.length || !tocLinks.length) return;
-
-      let low = 0;
-      let high = headingOffsets.length - 1;
-      let activeIndex = 0;
-
-      while (low <= high) {
-        const middle = Math.floor((low + high) / 2);
-        if (headingOffsets[middle] <= scrollPosition + 150) {
-          activeIndex = middle;
-          low = middle + 1;
-        } else {
-          high = middle - 1;
-        }
-      }
-
-      const nextId = headings[activeIndex]?.id ?? "";
-      if (!nextId || nextId === activeId) return;
-      activeId = nextId;
-
-      tocLinks.forEach((link) => {
-        const isActive = link.getAttribute("href") === `#${activeId}`;
-        link.classList.toggle("is-active", isActive);
-        if (isActive) link.setAttribute("aria-current", "location");
-        else link.removeAttribute("aria-current");
-      });
-    };
 
     const update = () => {
       updateFrame = 0;
-      const scrollPosition = window.scrollY;
-      header?.classList.toggle("is-scrolled", scrollPosition > 12);
-
-      if (progress && article) {
-        const start = articleTop - window.innerHeight * 0.18;
-        const value = Math.min(Math.max((scrollPosition - start) / articleDistance, 0), 1);
-        progress.style.transform = `scaleX(${value})`;
-      }
-
-      updateActiveHeading(scrollPosition);
+      header?.classList.toggle("is-scrolled", window.scrollY > 12);
     };
 
     const requestUpdate = () => {
       if (updateFrame) return;
       updateFrame = window.requestAnimationFrame(update);
-    };
-
-    const measure = () => {
-      measureFrame = 0;
-      if (article) {
-        const rect = article.getBoundingClientRect();
-        articleTop = window.scrollY + rect.top;
-        articleDistance = Math.max(rect.height - window.innerHeight * 0.55, 1);
-      }
-      headingOffsets = headings.map((heading) => window.scrollY + heading.getBoundingClientRect().top);
-      requestUpdate();
-    };
-
-    const requestMeasure = () => {
-      if (measureFrame) return;
-      measureFrame = window.requestAnimationFrame(measure);
     };
 
     const activateTab = (target: HTMLButtonElement, focus = false) => {
@@ -148,7 +103,6 @@ export function MotionController() {
         panel.hidden = panelIndex !== index;
       });
       if (focus) window.requestAnimationFrame(() => buttons[index]?.focus());
-      requestMeasure();
     };
 
     const handleClick = async (event: MouseEvent) => {
@@ -208,32 +162,17 @@ export function MotionController() {
       if (tabs[nextIndex]) activateTab(tabs[nextIndex], true);
     };
 
-    const resizeObserver = article && "ResizeObserver" in window
-      ? new ResizeObserver(requestMeasure)
-      : null;
-
-    if (resizeObserver && article) resizeObserver.observe(article);
-    measure();
+    update();
     window.addEventListener("scroll", requestUpdate, { passive: true });
-    if (needsMeasure) {
-      window.addEventListener("resize", requestMeasure);
-      window.addEventListener("load", requestMeasure, { once: true });
-    }
     document.addEventListener("click", handleClick);
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      resizeObserver?.disconnect();
       window.removeEventListener("scroll", requestUpdate);
-      if (needsMeasure) {
-        window.removeEventListener("resize", requestMeasure);
-        window.removeEventListener("load", requestMeasure);
-      }
       document.removeEventListener("click", handleClick);
       document.removeEventListener("keydown", handleKeyDown);
       copyTimers.forEach((timer) => window.clearTimeout(timer));
       if (updateFrame) window.cancelAnimationFrame(updateFrame);
-      if (measureFrame) window.cancelAnimationFrame(measureFrame);
     };
   }, [pathname]);
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Mail, MapPin } from "lucide-react";
+import { RouteLink } from "@/components/route-link";
 import { site } from "@/lib/site";
 import { getAllPosts, getCategories } from "@/lib/posts";
 
@@ -69,9 +69,9 @@ export default async function AboutPage() {
         <h3>快速导航</h3>
         <div className="quick-links">
           {site.nav.slice(0, -1).map((item) => (
-            <Link key={item.href} href={item.href} className="button-link secondary">
+            <RouteLink key={item.href} href={item.href} className="button-link secondary">
               {item.label}
-            </Link>
+            </RouteLink>
           ))}
         </div>
       </div>

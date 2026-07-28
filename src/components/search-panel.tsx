@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useDeferredValue, useMemo, useState } from "react";
 import { Folder, Search, Tag, X } from "lucide-react";
 import { formatDate } from "@/lib/date";
+import { RouteLink } from "@/components/route-link";
 import type { SearchPost } from "@/lib/posts";
 
 type SearchPanelProps = {
@@ -71,19 +71,19 @@ export function SearchPanel({ posts }: SearchPanelProps) {
                 <span>{post.readingTime}</span>
               </div>
               <h2>
-                <Link href={`/blog/${post.slug}/`}>
+                <RouteLink href={`/blog/${post.slug}/`}>
                   <HighlightedText text={post.title} tokens={tokens} />
-                </Link>
+                </RouteLink>
               </h2>
               <p><HighlightedText text={post.description} tokens={tokens} /></p>
               <p className="search-excerpt">
                 <HighlightedText text={getSearchExcerpt(post, tokens)} tokens={tokens} />
               </p>
               <div className="post-taxonomy">
-                <Link href={`/categories/${post.categorySlug}/`} className="taxonomy-link">
+                <RouteLink href={`/categories/${post.categorySlug}/`} className="taxonomy-link">
                   <Folder size={14} aria-hidden="true" />
                   <HighlightedText text={post.category} tokens={tokens} />
-                </Link>
+                </RouteLink>
                 {post.tags.map((tag) => (
                   <span className="taxonomy-link" key={tag}>
                     <Tag size={14} aria-hidden="true" />
