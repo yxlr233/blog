@@ -13,6 +13,18 @@ npm run preview
 
 生产构建会将静态文件导出到 `out/`。
 
+### Termux
+
+Next.js 16 默认使用依赖原生 Rust 二进制的 Turbopack。在 Android/Termux 中，使用下面的命令切换到 Webpack 与官方 SWC WebAssembly 编译器：
+
+```sh
+npm run setup:termux
+npm run dev:termux
+npm run build:termux
+```
+
+`setup:termux` 会跳过仅用于受支持桌面和服务器平台的可选原生包。开发与构建命令通过 `scripts/run-next.mjs` 的 `--js-toolchain` 参数启用兼容模式。普通的 `npm run dev`、`npm run build` 以及 GitHub Actions 不会读取该开关，仍使用 Next.js 默认工具链。
+
 ## 自动部署
 
 推送到 `main` 分支后，GitHub Actions 会自动构建并部署到 GitHub Pages。也可以在仓库的 Actions 页面手动运行 `Deploy to GitHub Pages` 工作流。
