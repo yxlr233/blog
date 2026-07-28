@@ -1,15 +1,15 @@
 :root {
-  --background: #f7f9f8;
+  --background: #f6f8fc;
   --surface: #ffffff;
-  --surface-2: #f0f3f2;
-  --surface-3: #e7ebe9;
-  --text: #19211f;
-  --muted: #68726f;
-  --muted-strong: #46524f;
-  --border: #dde3e0;
-  --border-strong: #c8d1cd;
-  --accent-light: #0f766e;
-  --accent-dark: #5eead4;
+  --surface-2: #eef3fb;
+  --surface-3: #e3eaf5;
+  --text: #172033;
+  --muted: #64748b;
+  --muted-strong: #3f4c63;
+  --border: #dce4ef;
+  --border-strong: #c5d0df;
+  --accent-light: #2563eb;
+  --accent-dark: #60a5fa;
   --accent: var(--accent-light);
   --accent-weak: color-mix(in srgb, var(--accent) 11%, #ffffff);
   --accent-fg: #ffffff;
@@ -19,43 +19,46 @@
   --warning-weak: #fff5df;
   --danger: #b4233a;
   --danger-weak: #fff0f2;
-  --code-bg: #e9eeeb;
+  --code-bg: #e8eef7;
   --pre-bg: #151b1a;
   --pre-fg: #e5ece9;
-  --code-block-bg: #f6f8fa;
-  --code-block-toolbar: #eef1f3;
+  --code-block-bg: #f7f9fc;
+  --code-block-toolbar: #eef2f8;
   --page-width: 920px;
   --wide-width: 1120px;
   --reading-width: 720px;
   --toc-width: 210px;
   --radius: 6px;
-  --shadow-sm: 0 1px 2px rgba(21, 31, 27, 0.05), 0 8px 24px rgba(21, 31, 27, 0.045);
-  --shadow: 0 20px 50px rgba(21, 31, 27, 0.13), 0 3px 10px rgba(21, 31, 27, 0.06);
+  --shadow-sm: 0 1px 2px rgba(22, 34, 58, 0.05), 0 8px 24px rgba(22, 34, 58, 0.045);
+  --shadow: 0 20px 50px rgba(22, 34, 58, 0.14), 0 3px 10px rgba(22, 34, 58, 0.06);
+  --motion-fast: 150ms;
+  --motion-base: 230ms;
+  --motion-slow: 480ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 [data-theme="dark"] {
-  --background: #101312;
-  --surface: #171b1a;
-  --surface-2: #202624;
-  --surface-3: #29312e;
-  --text: #edf2ef;
-  --muted: #9ca8a3;
-  --muted-strong: #c1cac6;
-  --border: #303936;
-  --border-strong: #46514d;
+  --background: #0f1219;
+  --surface: #171b24;
+  --surface-2: #202633;
+  --surface-3: #293241;
+  --text: #eef4ff;
+  --muted: #9aa8bd;
+  --muted-strong: #c4cfdf;
+  --border: #2b3443;
+  --border-strong: #465469;
   --accent: var(--accent-dark);
-  --accent-weak: color-mix(in srgb, var(--accent) 20%, #101312);
-  --accent-fg: #101312;
+  --accent-weak: color-mix(in srgb, var(--accent) 18%, #0f1219);
+  --accent-fg: #0f1219;
   --success: #64c69a;
   --success-weak: #123126;
   --warning: #e8ae57;
   --warning-weak: #382914;
   --danger: #ef8393;
   --danger-weak: #3a1920;
-  --code-bg: #252d2a;
-  --pre-bg: #090b0a;
-  --pre-fg: #e5ece9;
+  --code-bg: #252d3a;
+  --pre-bg: #090c12;
+  --pre-fg: #e7eefb;
   --code-block-bg: #0d1117;
   --code-block-toolbar: #161b22;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.22), 0 8px 20px rgba(0, 0, 0, 0.12);
@@ -82,7 +85,7 @@ body {
   font-family: Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background var(--motion-base) ease, color var(--motion-base) ease;
 }
 
 .skip-link {
@@ -144,13 +147,16 @@ svg {
   background: color-mix(in srgb, var(--background) 76%, transparent);
   backdrop-filter: blur(18px) saturate(115%);
   -webkit-backdrop-filter: blur(18px) saturate(115%);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  transition:
+    border-color var(--motion-base) ease,
+    box-shadow var(--motion-base) ease,
+    background var(--motion-base) ease;
 }
 
 .site-header.is-scrolled {
   border-color: var(--border);
   background: color-mix(in srgb, var(--background) 86%, transparent);
-  box-shadow: 0 10px 30px rgba(21, 31, 27, 0.055);
+  box-shadow: 0 10px 30px rgba(22, 34, 58, 0.06);
 }
 
 .nav {
@@ -187,7 +193,10 @@ svg {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1rem;
   line-height: 1;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.35s var(--ease-out);
+  transition:
+    background var(--motion-base) ease,
+    color var(--motion-base) ease,
+    transform 300ms var(--ease-out);
 }
 
 .brand:hover .brand-mark {
@@ -215,7 +224,7 @@ svg {
   color: var(--muted);
   text-decoration: none;
   white-space: nowrap;
-  transition: color 0.18s ease, background 0.18s ease;
+  transition: color var(--motion-fast) ease, background var(--motion-fast) ease;
 }
 
 .nav-link:hover {
@@ -239,6 +248,8 @@ svg {
   height: 2px;
   border-radius: 2px;
   background: var(--accent);
+  transform-origin: center;
+  animation: nav-indicator-in var(--motion-base) var(--ease-out) both;
 }
 
 .nav-right {
@@ -260,11 +271,34 @@ svg {
   background: transparent;
   color: var(--muted);
   cursor: pointer;
+  transition:
+    color var(--motion-fast) ease,
+    background var(--motion-fast) ease,
+    transform var(--motion-fast) var(--ease-out);
 }
 
 .nav-menu-toggle:hover {
   background: var(--accent-weak);
   color: var(--accent);
+}
+
+.nav-menu-toggle[aria-expanded="true"],
+.theme-controls > .icon-button[aria-expanded="true"] {
+  background: var(--accent-weak);
+  color: var(--accent);
+}
+
+.nav-menu-toggle svg,
+.theme-controls > .icon-button svg {
+  transition: transform var(--motion-base) var(--ease-out);
+}
+
+.nav-menu-toggle[aria-expanded="true"] svg {
+  transform: rotate(90deg);
+}
+
+.theme-controls > .icon-button[aria-expanded="true"] svg {
+  transform: rotate(10deg);
 }
 
 .nav-right .icon-button {
@@ -471,7 +505,7 @@ svg {
   padding: 24px 14px 26px;
   border-bottom: 1px solid var(--border);
   background: transparent;
-  transition: border-color 0.18s ease, background 0.18s ease;
+  transition: border-color var(--motion-base) ease, background var(--motion-base) ease;
 }
 
 .post-card:first-child {
@@ -489,7 +523,7 @@ svg {
   background: var(--accent);
   transform: scaleY(0);
   transform-origin: center;
-  transition: transform 0.22s var(--ease-out);
+  transition: transform var(--motion-base) var(--ease-out);
 }
 
 .post-card:hover,
@@ -514,7 +548,7 @@ svg {
   flex: 0 0 auto;
   margin-top: 13px;
   color: var(--border-strong);
-  transition: color 0.15s ease, transform 0.15s ease;
+  transition: color var(--motion-fast) ease, transform var(--motion-base) var(--ease-out);
 }
 
 .post-card:hover .post-card-heading > svg {
@@ -535,10 +569,15 @@ svg {
 .post-card h2 a,
 .post-card h3 a {
   text-decoration: none;
+  transition: color var(--motion-fast) ease;
 }
 
 .post-card h2 a:hover,
-.post-card h3 a:hover {
+.post-card h3 a:hover,
+.post-card:hover h2 a,
+.post-card:hover h3 a,
+.post-card:focus-within h2 a,
+.post-card:focus-within h3 a {
   color: var(--accent);
 }
 
@@ -586,7 +625,10 @@ svg {
   font-size: 0.75rem;
   line-height: 1.45;
   text-decoration: none;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  transition:
+    color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    background var(--motion-fast) ease;
 }
 
 .taxonomy-link:hover {
@@ -630,14 +672,18 @@ svg {
   background: color-mix(in srgb, var(--surface) 72%, transparent);
   color: var(--text);
   text-decoration: none;
-  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+  transition:
+    border-color var(--motion-base) ease,
+    background var(--motion-base) ease,
+    box-shadow var(--motion-base) ease,
+    transform var(--motion-base) var(--ease-out);
 }
 
 .taxonomy-card:hover {
   border-color: var(--accent);
   background: var(--accent-weak);
-  box-shadow: 0 8px 24px rgba(21, 31, 27, 0.06);
-  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(22, 34, 58, 0.07);
+  transform: translateY(-2px);
 }
 
 .taxonomy-card:active {
@@ -647,6 +693,11 @@ svg {
 .taxonomy-card-icon {
   flex: 0 0 auto;
   color: var(--accent);
+  transition: transform var(--motion-base) var(--ease-out);
+}
+
+.taxonomy-card:hover .taxonomy-card-icon {
+  transform: translateY(-1px) scale(1.06);
 }
 
 .taxonomy-card strong {
@@ -671,7 +722,7 @@ svg {
   background: var(--surface);
   color: var(--muted);
   box-shadow: var(--shadow-sm);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color var(--motion-fast) ease, box-shadow var(--motion-base) ease;
 }
 
 .search-box:focus-within {
@@ -1458,7 +1509,10 @@ svg {
   background: var(--surface);
   color: var(--text) !important;
   text-decoration: none !important;
-  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+  transition:
+    border-color var(--motion-base) ease,
+    box-shadow var(--motion-base) ease,
+    transform var(--motion-base) var(--ease-out);
 }
 
 .mdx-card.is-link:hover {
@@ -1487,6 +1541,12 @@ svg {
 .mdx-card-heading svg {
   flex: 0 0 auto;
   color: var(--muted);
+  transition: color var(--motion-fast) ease, transform var(--motion-base) var(--ease-out);
+}
+
+.mdx-card.is-link:hover .mdx-card-heading svg {
+  color: var(--accent);
+  transform: translateX(2px);
 }
 
 .mdx-card-content {
@@ -1602,7 +1662,10 @@ svg {
   cursor: pointer;
   font-size: 0.78rem;
   font-weight: 650;
-  transition: color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  transition:
+    color var(--motion-fast) ease,
+    background var(--motion-fast) ease,
+    box-shadow var(--motion-base) ease;
 }
 
 .mdx-tab-list button[aria-selected="true"] {
@@ -1616,7 +1679,7 @@ svg {
   color: var(--text);
   font-size: 0.88rem;
   line-height: 1.7;
-  animation: tab-panel-in 0.38s var(--ease-out) both;
+  animation: tab-panel-in 260ms var(--ease-out) both;
 }
 
 .mdx-details {
@@ -1744,11 +1807,16 @@ svg {
   font-size: 0.88rem;
   font-weight: 650;
   text-decoration: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition:
+    border-color var(--motion-fast) ease,
+    background var(--motion-fast) ease,
+    color var(--motion-fast) ease,
+    box-shadow var(--motion-base) ease,
+    transform var(--motion-base) var(--ease-out);
 }
 
 .button-link:hover {
-  opacity: 0.9;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 18%, transparent);
   transform: translateY(-1px);
 }
 
@@ -1757,11 +1825,11 @@ svg {
 }
 
 .button-link svg {
-  transition: transform 0.28s var(--ease-out);
+  transition: transform var(--motion-base) var(--ease-out);
 }
 
 .button-link:hover svg {
-  transform: translateX(3px);
+  transform: translateX(2px);
 }
 
 .button-link.secondary {
@@ -1772,6 +1840,8 @@ svg {
 
 .button-link.secondary:hover {
   border-color: var(--accent);
+  background: var(--accent-weak);
+  box-shadow: none;
   color: var(--accent);
 }
 
@@ -1786,7 +1856,10 @@ svg {
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  transition: color 0.15s ease, background 0.15s ease;
+  transition:
+    color var(--motion-fast) ease,
+    background var(--motion-fast) ease,
+    transform var(--motion-fast) var(--ease-out);
 }
 
 .icon-button:hover {
@@ -1812,11 +1885,10 @@ svg {
   top: calc(100% + 9px);
   right: 0;
   z-index: 60;
-  min-width: 240px;
+  min-width: 178px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 16px;
+  padding: 12px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: color-mix(in srgb, var(--surface) 90%, transparent);
@@ -1824,7 +1896,7 @@ svg {
   backdrop-filter: blur(22px) saturate(125%);
   -webkit-backdrop-filter: blur(22px) saturate(125%);
   transform-origin: top right;
-  animation: popover-in 0.28s var(--ease-out) both;
+  animation: popover-in 190ms var(--ease-out) both;
 }
 
 .theme-section {
@@ -1861,49 +1933,27 @@ svg {
   background: transparent;
   color: var(--muted);
   cursor: pointer;
+  transition:
+    color var(--motion-fast) ease,
+    background var(--motion-fast) ease,
+    box-shadow var(--motion-base) ease,
+    transform var(--motion-fast) var(--ease-out);
 }
 
 .segmented-control button[aria-pressed="true"] {
   border-color: var(--border);
   background: var(--surface);
-  box-shadow: 0 1px 4px rgba(21, 31, 27, 0.09);
+  box-shadow: 0 1px 4px rgba(22, 34, 58, 0.1);
   color: var(--accent);
 }
 
 .segmented-control button:hover:not([aria-pressed="true"]) {
-  background: var(--surface-2);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
   color: var(--text);
 }
 
-.swatch-row {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
-}
-
-.color-swatch {
-  width: 26px;
-  height: 26px;
-  padding: 0;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  background: var(--swatch-light);
-  cursor: pointer;
-  outline-offset: 2px;
-  transition: transform 0.12s ease;
-}
-
-[data-theme="dark"] .color-swatch {
-  background: var(--swatch-dark);
-}
-
-.color-swatch:hover {
-  transform: scale(1.12);
-}
-
-.color-swatch[aria-pressed="true"] {
-  border-color: var(--surface);
-  box-shadow: 0 0 0 2px var(--text);
+.segmented-control button:active {
+  transform: scale(0.95);
 }
 
 .reading-progress {
@@ -1930,17 +1980,17 @@ svg {
 }
 
 .reveal-item.is-visible {
-  animation: reveal-in 0.62s var(--ease-out) var(--reveal-delay, 0ms) both;
+  animation: reveal-in var(--motion-slow) var(--ease-out) var(--reveal-delay, 0ms) both;
 }
 
 .post-list .reveal-item:nth-child(2),
 .taxonomy-grid .reveal-item:nth-child(2) {
-  --reveal-delay: 40ms;
+  --reveal-delay: 30ms;
 }
 
 .post-list .reveal-item:nth-child(3),
 .taxonomy-grid .reveal-item:nth-child(3) {
-  --reveal-delay: 80ms;
+  --reveal-delay: 60ms;
 }
 
 @supports (content-visibility: auto) {
@@ -1962,7 +2012,7 @@ svg {
 @keyframes reveal-in {
   from {
     opacity: 0;
-    translate: 0 14px;
+    translate: 0 10px;
   }
   to {
     opacity: 1;
@@ -1970,10 +2020,32 @@ svg {
   }
 }
 
+@keyframes nav-indicator-in {
+  from {
+    opacity: 0;
+    transform: scaleX(0.35);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes nav-indicator-mobile-in {
+  from {
+    opacity: 0;
+    transform: scaleY(0.35);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
 @keyframes popover-in {
   from {
     opacity: 0;
-    transform: translateY(-6px) scale(0.97);
+    transform: translateY(-4px) scale(0.985);
   }
   to {
     opacity: 1;
@@ -1984,7 +2056,7 @@ svg {
 @keyframes tab-panel-in {
   from {
     opacity: 0;
-    transform: translateY(5px);
+    transform: translateY(3px);
   }
   to {
     opacity: 1;
@@ -2170,7 +2242,7 @@ svg {
     backdrop-filter: blur(18px) saturate(115%);
     -webkit-backdrop-filter: blur(18px) saturate(115%);
     transform-origin: top right;
-    animation: popover-in 0.24s var(--ease-out) both;
+    animation: popover-in 190ms var(--ease-out) both;
   }
 
   .nav-links.is-open {
@@ -2197,6 +2269,8 @@ svg {
     left: 3px;
     width: 2px;
     height: auto;
+    transform-origin: center;
+    animation-name: nav-indicator-mobile-in;
   }
 
   .nav-right {
@@ -2206,7 +2280,7 @@ svg {
 
   .theme-popover {
     top: calc(100% + 15px);
-    width: min(240px, calc(100vw - 28px));
+    width: min(178px, calc(100vw - 28px));
     min-width: 0;
   }
 

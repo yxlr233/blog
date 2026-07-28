@@ -19,15 +19,5 @@ export const site = {
     links: [
       { href: "https://github.com/yxlr233", label: "GitHub" }
     ]
-  },
-  theme: {
-    accents: [
-      { name: "青绿", value: "#0f766e", darkValue: "#5eead4" },
-      { name: "靛蓝", value: "#2563eb", darkValue: "#93c5fd" },
-      { name: "玫红", value: "#be123c", darkValue: "#fb7185" },
-      { name: "森绿", value: "#15803d", darkValue: "#4ade80" },
-      { name: "琥珀", value: "#a16207", darkValue: "#fbbf24" },
-      { name: "紫罗兰", value: "#7c3aed", darkValue: "#a78bfa" }
-    ]
   }
 };

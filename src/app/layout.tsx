@@ -18,10 +18,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const darkAccentMap = JSON.stringify(
-    Object.fromEntries(site.theme.accents.map(({ value, darkValue }) => [value, darkValue]))
-  );
-
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <head>
@@ -30,14 +26,8 @@ export default function RootLayout({
             __html: `
 (function(){
   var t = localStorage.getItem('quiet-notes-theme') || 'system';
-  var a = localStorage.getItem('quiet-notes-accent') || '';
-  var darkAccents = ${darkAccentMap};
   var resolved = t === 'system' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : t;
   document.documentElement.dataset.theme = resolved;
-  if(a) {
-    document.documentElement.style.setProperty('--accent-light', a);
-    document.documentElement.style.setProperty('--accent-dark', darkAccents[a] || a);
-  }
 })();
 `
           }}
