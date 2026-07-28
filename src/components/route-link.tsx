@@ -21,8 +21,8 @@ function RoutePendingIndicator() {
   if (!pending || typeof document === "undefined") return null;
 
   return createPortal(
-    <span className="route-progress" aria-hidden="true">
-      <span />
+    <span className="route-progress" aria-label="页面加载中" role="status">
+      <span className="route-progress-bar" aria-hidden="true" />
     </span>,
     document.body
   );

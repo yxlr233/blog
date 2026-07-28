@@ -29,9 +29,13 @@
   --radius: 6px;
   --shadow-sm: 0 1px 2px rgba(22, 34, 58, 0.05), 0 8px 24px rgba(22, 34, 58, 0.045);
   --shadow: 0 20px 50px rgba(22, 34, 58, 0.14), 0 3px 10px rgba(22, 34, 58, 0.06);
-  --motion-fast: 150ms;
-  --motion-base: 230ms;
-  --motion-slow: 480ms;
+  /* Motion scale: feedback, controls, layout, then indefinite loading. */
+  --motion-instant: 120ms;
+  --motion-fast: 160ms;
+  --motion-base: 240ms;
+  --motion-slow: 360ms;
+  --motion-loading: 900ms;
+  --motion-stagger: 40ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -99,7 +103,7 @@ body {
   font-weight: 700;
   text-decoration: none;
   transform: translateY(-160%);
-  transition: transform 0.2s var(--ease-out);
+  transition: transform var(--motion-base) var(--ease-out);
 }
 
 .skip-link:focus {
@@ -206,7 +210,7 @@ svg {
   transition:
     background var(--motion-base) ease,
     color var(--motion-base) ease,
-    transform 300ms var(--ease-out);
+    transform var(--motion-slow) var(--ease-out);
 }
 
 .brand:hover .brand-mark {
@@ -329,6 +333,10 @@ svg {
   padding: 56px 0 92px;
 }
 
+.route-loading {
+  animation: loading-enter var(--motion-fast) ease both;
+}
+
 .route-loading-header {
   max-width: 680px;
   display: grid;
@@ -341,7 +349,7 @@ svg {
   display: block;
   border-radius: 4px;
   background: var(--surface-2);
-  animation: loading-pulse 900ms ease-in-out infinite alternate;
+  animation: loading-pulse var(--motion-loading) ease-in-out infinite alternate;
 }
 
 .loading-eyebrow {
@@ -371,11 +379,11 @@ svg {
 }
 
 .route-loading-item:nth-child(2) .loading-block {
-  animation-delay: 90ms;
+  animation-delay: calc(var(--motion-stagger) + var(--motion-stagger));
 }
 
 .route-loading-item:nth-child(3) .loading-block {
-  animation-delay: 180ms;
+  animation-delay: calc(var(--motion-stagger) + var(--motion-stagger) + var(--motion-stagger) + var(--motion-stagger));
 }
 
 .loading-meta {
@@ -1065,7 +1073,7 @@ svg {
   font-weight: 500;
   text-decoration: none;
   opacity: 0;
-  transition: color 0.15s ease, opacity 0.15s ease;
+  transition: color var(--motion-fast) ease, opacity var(--motion-fast) ease;
 }
 
 .prose h2:hover .heading-anchor,
@@ -1158,6 +1166,72 @@ svg {
   text-transform: uppercase;
 }
 
+.code-block-content {
+  position: relative;
+  overflow: hidden;
+}
+
+.code-block-content pre {
+  transition: max-height var(--motion-slow) var(--ease-out);
+}
+
+.code-block-content[data-expanded="true"] pre {
+  max-height: var(--code-expanded-height, 100vh);
+  overflow-y: hidden;
+}
+
+.code-block-content[data-collapsed="true"] pre {
+  max-height: calc(12 * 1.72em + 30px);
+  overflow-y: hidden;
+}
+
+.code-block-content[data-collapsed="true"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 64px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--code-block-bg));
+}
+
+.code-block-footer {
+  display: flex;
+  min-height: 38px;
+  border-top: 1px solid var(--border);
+  background: var(--code-block-toolbar);
+}
+
+.code-expand-button {
+  width: 100%;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--muted-strong);
+  cursor: pointer;
+  font-family: Inter, "Noto Sans SC", sans-serif;
+  font-size: 0.74rem;
+  font-weight: 650;
+  transition: color var(--motion-fast) ease, background var(--motion-fast) ease;
+}
+
+.code-expand-button:hover {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+}
+
+.code-expand-button svg {
+  transition: transform var(--motion-fast) var(--ease-out);
+}
+
+.code-expand-button:hover svg {
+  transform: translateY(1px);
+}
+
 .code-copy-button {
   min-width: 62px;
   height: 30px;
@@ -1173,7 +1247,11 @@ svg {
   cursor: pointer;
   font-size: 0.72rem;
   text-transform: none;
-  transition: color 0.16s ease, background 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+  transition:
+    color var(--motion-fast) ease,
+    background var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    transform var(--motion-fast) ease;
 }
 
 .code-copy-button:hover {
@@ -1208,7 +1286,7 @@ svg {
 }
 
 .code-copy-button[data-copied="true"] .copied-icon {
-  animation: copy-success 220ms var(--ease-out);
+  animation: copy-success var(--motion-base) var(--ease-out);
 }
 
 @keyframes copy-success {
@@ -1450,7 +1528,7 @@ svg {
   color: var(--muted);
   line-height: 1.45;
   text-decoration: none;
-  transition: color 0.12s ease, background 0.12s ease;
+  transition: color var(--motion-instant) ease, background var(--motion-instant) ease;
 }
 
 .toc-list li a:hover {
@@ -1775,7 +1853,7 @@ svg {
   color: var(--text);
   font-size: 0.88rem;
   line-height: 1.7;
-  animation: tab-panel-in 260ms var(--ease-out) both;
+  animation: tab-panel-in var(--motion-base) var(--ease-out) both;
 }
 
 .mdx-details {
@@ -1992,7 +2070,7 @@ svg {
   backdrop-filter: blur(22px) saturate(125%);
   -webkit-backdrop-filter: blur(22px) saturate(125%);
   transform-origin: top right;
-  animation: popover-in 190ms var(--ease-out) both;
+  animation: popover-in var(--motion-base) var(--ease-out) both;
 }
 
 .theme-section {
@@ -2080,33 +2158,17 @@ svg {
   pointer-events: none;
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   opacity: 0;
-  animation: route-progress-show 150ms ease 90ms forwards;
+  animation: route-progress-show var(--motion-instant) ease forwards;
 }
 
-.route-progress > span {
+.route-progress-bar {
   width: 38%;
   height: 100%;
   display: block;
   background: var(--accent);
   box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 52%, transparent);
   transform: translateX(-120%);
-  animation: route-progress-move 850ms var(--ease-out) 90ms infinite;
-}
-
-@supports (content-visibility: auto) {
-  .post-card,
-  .taxonomy-card {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 150px;
-  }
-
-  .prose > figure,
-  .prose > .mdx-card-grid,
-  .prose > .mdx-tabs,
-  .prose > .table-scroll {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 260px;
-  }
+  animation: route-progress-move var(--motion-loading) var(--ease-out) infinite;
 }
 
 @keyframes loading-pulse {
@@ -2116,6 +2178,15 @@ svg {
   to {
     opacity: 1;
     background: var(--surface-3);
+  }
+}
+
+@keyframes loading-enter {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -2356,7 +2427,7 @@ svg {
     backdrop-filter: blur(18px) saturate(115%);
     -webkit-backdrop-filter: blur(18px) saturate(115%);
     transform-origin: top right;
-    animation: popover-in 190ms var(--ease-out) both;
+    animation: popover-in var(--motion-base) var(--ease-out) both;
   }
 
   .nav-links.is-open {
@@ -2516,6 +2587,10 @@ svg {
   .prose .code-block-shell pre {
     padding: 13px 0;
     font-size: 0.82rem;
+  }
+
+  .code-block-content[data-collapsed="true"] pre {
+    max-height: calc(12 * 1.72em + 26px);
   }
 
   .prose .code-block-shell code > [data-line] {

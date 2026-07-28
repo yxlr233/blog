@@ -3,74 +3,8 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-const revealSelector = [
-  ".intro-copy > *",
-  ".intro-index",
-  ".section-heading",
-  ".post-card",
-  ".taxonomy-card",
-  ".page-header > *",
-  ".custom-page-header > *",
-  ".profile-card",
-  ".about-section",
-  ".post-header > *",
-  ".toc",
-  ".prose > h2",
-  ".prose > h3",
-  ".prose > figure",
-  ".prose > .callout",
-  ".prose > .mdx-card-grid",
-  ".prose > .mdx-tabs",
-  ".prose > .table-scroll"
-].join(",");
-
 export function MotionController() {
   const pathname = usePathname();
-
-  useEffect(() => {
-    const targets = Array.from(document.querySelectorAll<HTMLElement>(revealSelector));
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reduceMotion || !("IntersectionObserver" in window) || !("animate" in Element.prototype)) {
-      return;
-    }
-
-    const rootStyles = window.getComputedStyle(document.documentElement);
-    const duration = Number.parseFloat(rootStyles.getPropertyValue("--motion-slow")) || 480;
-    const easing = rootStyles.getPropertyValue("--ease-out").trim();
-    const animations: Animation[] = [];
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          const target = entry.target as HTMLElement;
-          const parent = target.parentElement;
-          const staggered = parent?.matches(".post-list, .taxonomy-grid") ?? false;
-          const siblingIndex = parent ? Array.from(parent.children).indexOf(target) : 0;
-          const delay = staggered ? Math.min(Math.max(siblingIndex, 0) * 30, 60) : 0;
-
-          animations.push(target.animate(
-            [
-              { opacity: 0, translate: "0 10px" },
-              { opacity: 1, translate: "0 0" }
-            ],
-            { duration, delay, easing, fill: "backwards" }
-          ));
-          observer.unobserve(target);
-        });
-      },
-      { rootMargin: "0px 0px -7% 0px", threshold: 0.06 }
-    );
-
-    targets.forEach((target) => observer.observe(target));
-
-    return () => {
-      observer.disconnect();
-      animations.forEach((animation) => animation.cancel());
-    };
-  }, [pathname]);
 
   useEffect(() => {
     const header = document.querySelector<HTMLElement>(".site-header");

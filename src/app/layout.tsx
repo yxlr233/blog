@@ -25,9 +25,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
 (function(){
+  var root = document.documentElement;
   var t = localStorage.getItem('quiet-notes-theme') || 'system';
   var resolved = t === 'system' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : t;
-  document.documentElement.dataset.theme = resolved;
+  root.dataset.theme = resolved;
 })();
 `
           }}
